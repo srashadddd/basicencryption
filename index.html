@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encryption and Decryption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f0f4f8;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .box {
+            width: 300px;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .box h2 {
+            margin: 0 0 10px;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .box textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+        }
+
+        .box button {
+            padding: 10px 15px;
+            font-size: 14px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .box button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box" id="encryptionBox">
+            <h2>Encryption</h2>
+            <textarea id="encryptInput" placeholder="Enter text to encrypt..."></textarea>
+            <button onclick="encryptText()">Encrypt</button>
+            <p id="encryptedOutput"></p>
+        </div>
+
+        <div class="box" id="decryptionBox">
+            <h2>Decryption</h2>
+            <textarea id="decryptInput" placeholder="Enter text to decrypt..."></textarea>
+            <button onclick="decryptText()">Decrypt</button>
+            <p id="decryptedOutput"></p>
+        </div>
+    </div>
+
+    <script>
+        const shift = 3; // Caesar cipher shift value
+
+        function encryptText() {
+            const input = document.getElementById("encryptInput").value;
+            let encrypted = '';
+            for (let i = 0; i < input.length; i++) {
+                const char = input[i];
+                if (char.match(/[a-z]/i)) {
+                    const code = input.charCodeAt(i);
+                    if (code >= 65 && code <= 90) {
+                        encrypted += String.fromCharCode(((code - 65 + shift) % 26) + 65);
+                    } else if (code >= 97 && code <= 122) {
+                        encrypted += String.fromCharCode(((code - 97 + shift) % 26) + 97);
+                    }
+                } else {
+                    encrypted += char;
+                }
+            }
+            document.getElementById("encryptedOutput").textContent = `Encrypted: ${encrypted}`;
+        }
+
+        function decryptText() {
+            const input = document.getElementById("decryptInput").value;
+            let decrypted = '';
+            for (let i = 0; i < input.length; i++) {
+                const char = input[i];
+                if (char.match(/[a-z]/i)) {
+                    const code = input.charCodeAt(i);
+                    if (code >= 65 && code <= 90) {
+                        decrypted += String.fromCharCode(((code - 65 - shift + 26) % 26) + 65);
+                    } else if (code >= 97 && code <= 122) {
+                        decrypted += String.fromCharCode(((code - 97 - shift + 26) % 26) + 97);
+                    }
+                } else {
+                    decrypted += char;
+                }
+            }
+            document.getElementById("decryptedOutput").textContent = `Decrypted: ${decrypted}`;
+        }
+    </script>
+</body>
+</html>
